@@ -1,36 +1,19 @@
 {
   "files": [
     {
-      "type": "symlink",
       "source": "/home/gerg/Projects/linker/test_file",
       "target": "/home/gerg/Projects/linker/test_link",
-      "clobber": true
-    },
-    {
-      "type": "file",
-      "source": "/home/gerg/Projects/linker/test_file",
-      "target": "/home/gerg/Projects/linker/test_copy",
       "clobber": false
     },
     {
-      "type": "file",
       "source": "/home/gerg/Projects/linker/test_file",
-      "target": "/home/gerg/Projects/linker/test_script",
-      "clobber": false,
-      "permissions": 740
+      "target": "/home/gerg/Projects/linker/test_clobber",
+      "clobber": true
     },
     {
-      "type": "folder",
-      "target": "/home/gerg/Projects/linker/test_folder"
-    },
-    {
-      "type": "delete",
-      "target": "/home/gerg/Projects/linker/test_delete"
-    },
-    {
-      "type": "recursiveSymlink",
       "source": "/home/gerg/Projects/linker/test",
-      "target": "/home/gerg/Projects/linker/test_recursive"
+      "target": "/home/gerg/Projects/linker/test_recursive",
+      "recursive": true
     }
   ],
   "clobber_by_default": false,
