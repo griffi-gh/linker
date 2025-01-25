@@ -13,7 +13,6 @@ use std::{
 
 use clap::Parser;
 use serde::{Deserialize, Deserializer, Serialize};
-use std::collections::BTreeSet;
 use std::os::unix::fs as unixFs;
 
 const VERSION: u16 = 1;
@@ -506,19 +505,22 @@ fn diff(mut manifest: Manifest, old_manifest_path: &PathBuf, prefix: String) {
         Ok(x) => x,
         Err(e) => panic!("Failed to read or parse manifest!\n{}", e),
     };
+
     println!("Deserialized manifest: '{}'", old_manifest_path.display());
     println!("Manifest version: '{}'", old_manifest.version);
     println!("Program version: '{}'", VERSION);
 
-    let old = BTreeSet::from_iter(old_manifest.files);
-    let new = BTreeSet::from_iter(manifest.files);
+    let mut same = vec![];
 
-    manifest.files = Vec::from_iter(new.difference(&old).cloned());
-    old_manifest.files = Vec::from_iter(old.difference(&new).cloned());
-    dbg!(&manifest.files);
-    dbg!(&old_manifest.files);
+    old_manifest.files.retain(|f| {
+        same.push(f.clone());
+        !manifest.files.contains(f)
+    });
+    manifest.files.retain(|f| !same.contains(f));
+
     deactivate(old_manifest);
     activate(manifest, prefix);
+    //TODO: Verify same files
 }
 
 fn main() {
